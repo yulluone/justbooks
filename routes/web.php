@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,7 +37,10 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'checkisadmin'])->group(function () {
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+	Route::resource('books', BooksController::class)
+		->only(['index', 'store']);
 });
+
+
 
 require __DIR__ . '/auth.php';
