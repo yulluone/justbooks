@@ -4,15 +4,18 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
 
+
 const form = useForm({
     name: "",
     publisher: "",
     isbn: "",
-    pages: null, // Adjust to the appropriate data type for 'pages'
+    pages: null,
     category: "",
     subCategory: "",
     description: "",
 });
+
+
 </script>
 
 <template>
@@ -54,7 +57,7 @@ const form = useForm({
                     id="category"
                     label="Category"
                     v-model="form.category"
-                    placeholder="Category"
+                    placeholder="Example. Fiction"
                 />
 
                 <InputField
@@ -69,7 +72,7 @@ const form = useForm({
                 Description
                 <textarea
                     id="description"
-                    v-model="form.description"
+                    v-model="form.pages"
                     placeholder="Enter Book Description"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>

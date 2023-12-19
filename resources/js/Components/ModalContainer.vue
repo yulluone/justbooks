@@ -5,10 +5,12 @@ import {
     Dialog,
     DialogOverlay,
 } from "@headlessui/vue";
-// import XMark from "@/Components/Icons/XMark";
-import { ref } from "vue";
+import XMark from "./Icons/XMark.vue";
+import { inject } from "vue";
 
-const isOpen = ref(true);
+const isOpen = inject("modalIsOpen");
+
+const emit = defineEmits(["close-modal"]);
 </script>
 
 <template>
@@ -51,12 +53,13 @@ const isOpen = ref(true);
                             class="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] rounded-md"
                         >
                             <button
+                                @click="emit('close-modal')"
                                 aria-label="Close panel"
                                 class="absolute top-5 z-10 text-dark-900 outline-none transition-all hover:text-dark focus-visible:outline-none right-4 dark:text-dark-800 hover:dark:text-light-200 md:top-6 md:right-5 lg:top-7 lg:right-7"
                             >
-                                <!-- <XMark
+                                <XMark
                                     class="h-4 w-4 focus-visible:outline-none lg:h-[18px] lg:w-[18px] 3xl:h-5 3xl:w-5"
-                                /> -->
+                                />
                             </button>
                             <div class="h-full w-full">
                                 <slot />

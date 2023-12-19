@@ -41,13 +41,23 @@ const showingNavigationDropdown = ref(false);
                         </div>
 
                         <div class="hidden sm:flex">
-                            <!-- Register new user -->
-                            <NavLink
-                                v-if="$page.props.auth.user.isAdmin"
-                                :href="route('register')"
-                                :active="route().current('register')"
-                                >Register User</NavLink
-                            >
+                            <div class="flex gap-4">
+                                <!-- Books Books Books -->
+                                <NavLink
+                                    v-if="$page.props.auth.user.isAdmin"
+                                    :href="route('books.index')"
+                                    :active="route().current('books.index')"
+                                    >Books</NavLink
+                                >
+
+                                <!-- Register new user -->
+                                <NavLink
+                                    v-if="$page.props.auth.user.isAdmin"
+                                    :href="route('register')"
+                                    :active="route().current('register')"
+                                    >Add User</NavLink
+                                >
+                            </div>
 
                             <div class="sm:flex sm:items-center sm:ms-6">
                                 <!-- Settings Dropdown -->

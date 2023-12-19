@@ -12,7 +12,7 @@ const props = defineProps({
         stroke-width="1.5"
         stroke="currentColor"
         data-slot="icon"
-        :props="props"
+        :class="class"
     >
         <path
             stroke-linecap="round"
