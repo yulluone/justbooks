@@ -163,13 +163,24 @@ const showingNavigationDropdown = ref(false);
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
+                        <!-- Dashboard -->
                         <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
                             Dashboard
                         </ResponsiveNavLink>
 
+                        <!-- Books Books Books -->
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
+                            :href="route('books.index')"
+                            :active="route().current('books.index')"
+                            >Books</ResponsiveNavLink
+                        >
+
+                        <!-- Register New User -->
                         <ResponsiveNavLink
                             v-if="$page.props.auth.user.isAdmin"
                             :href="route('register')"

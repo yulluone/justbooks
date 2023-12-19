@@ -4,7 +4,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
 
-
 const form = useForm({
     name: "",
     publisher: "",
@@ -14,13 +13,17 @@ const form = useForm({
     subCategory: "",
     description: "",
 });
-
-
 </script>
 
 <template>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form class="flex flex-col gap-2">
+        <form
+            class="flex flex-col gap-2"
+            @submit.prevent="
+                form.post(route('books.store')),
+                    { onSuccess: () => form.reset() }
+            "
+        >
             <div class="grid grid-cols-2 gap-2">
                 <InputField
                     id="bookName"

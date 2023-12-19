@@ -23,7 +23,9 @@ function setModalIsOpen(value) {
     <Head title="Books" />
     <AuthenticatedLayout>
         <div class="flex w-full justify-end px-7 mt-7">
-            <PrimaryButton @click="setModalIsOpen(true)"
+            <PrimaryButton
+                v-if="$page.props.auth.user.isAdmin"
+                @click="setModalIsOpen(true)"
                 >Add Book</PrimaryButton
             >
         </div>
