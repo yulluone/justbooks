@@ -8,11 +8,14 @@ const form = useForm({
     name: "",
     publisher: "",
     isbn: "",
-    pages: null,
+    pages: 1,
     category: "",
-    subCategory: "",
+    sub_category: "",
     description: "",
+    image: "",
 });
+
+
 </script>
 
 <template>
@@ -20,8 +23,9 @@ const form = useForm({
         <form
             class="flex flex-col gap-2"
             @submit.prevent="
-                form.post(route('books.store')),
-                    { onSuccess: () => form.reset() }
+                form.post(route('books.store'), {
+                    onSuccess: () => form.reset(),
+                })
             "
         >
             <div class="grid grid-cols-2 gap-2">
@@ -30,12 +34,14 @@ const form = useForm({
                     label="Name"
                     placeholder="Book Name/Title"
                     v-model="form.name"
+                    :value="form.name"
                 />
                 <InputField
                     id="publisher"
                     label="Publisher"
                     v-model="form.publisher"
                     placeholder="Book Publisher"
+                    :value="form.publisher"
                 />
             </div>
 
@@ -45,6 +51,7 @@ const form = useForm({
                     label="ISBN"
                     v-model="form.isbn"
                     placeholder="Book Serial Number/ Bar Code Number"
+                    :value="form.isbn"
                 />
                 <InputField
                     type="number"
@@ -52,6 +59,7 @@ const form = useForm({
                     id="pages"
                     v-model="form.pages"
                     placeholder="Number of Pages"
+                    :value="form.pages"
                 />
             </div>
 
@@ -61,13 +69,22 @@ const form = useForm({
                     label="Category"
                     v-model="form.category"
                     placeholder="Example. Fiction"
+                    :value="form.category"
                 />
 
                 <InputField
                     id="subCategory"
                     label="Sub Category"
-                    v-model="form.subCategory"
+                    v-model="form.sub_category"
+                    :value="form.sub_category"
                     placeholder="Sub Category"
+                />
+                <InputField
+                    id="image"
+                    label="Image URL"
+                    v-model="form.image"
+                    placeholder="Image URL"
+                    :value="form.image"
                 />
             </div>
 
@@ -75,7 +92,7 @@ const form = useForm({
                 Description
                 <textarea
                     id="description"
-                    v-model="form.pages"
+                    v-model="form.description"
                     placeholder="Enter Book Description"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>

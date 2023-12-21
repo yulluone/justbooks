@@ -35,16 +35,17 @@ class BookController extends Controller
 	{
 		//validate data
 		$validated = $request->validate([
-			'name' => "required|string|max:255",
-			'publisher' => "required|string|max:255",
-			'isbn' => "required|string|max:255",
-			'pages' => "required|number|max:255",
-			'category' => "required|string|max:255",
-			'subCategory' => "required|string|max:255",
-			'description' => "required|string|max:255",
+			'name' => "required|string|max:200",
+			'publisher' => "required|string|max:50",
+			'isbn' => "required|string|max:50",
+			'category' => "required|string|max:100",
+			'sub_category' => "required|string|max:100",
+			'description' => "required|string",
+			'pages' => "required|integer|max:2147483648",
+			'image' => "required|string|max:200"
 		]);
 
-		$request->user()->book()->create($validated);
+		$request->user()->books()->create($validated);
 
 		return redirect(route('books.index'));
 
