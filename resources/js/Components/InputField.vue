@@ -1,6 +1,6 @@
 <script setup>
 defineProps(["modelValue", "id", "type", "label", "placeholder"]);
-defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
@@ -11,7 +11,7 @@ defineEmits(["update:modelValue"]);
             :type="type"
             :placeholder="placeholder"
             :value="modelValue"
-            @input="$emits('update:modelValue', $event.target.value)"
+            @input="emits('update:modelValue', $event.target.value)"
             class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         />
     </label>

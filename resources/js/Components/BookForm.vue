@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
 import axios from "axios";
+import { ref } from "vue";
 
 const form = useForm({
     name: "",
@@ -15,6 +16,10 @@ const form = useForm({
     description: "",
     image: "",
 });
+
+const uploading = ref(false);
+const success = ref(false);
+
 
 const handleImage = async (event) => {
     console.log("file added");
