@@ -3,6 +3,7 @@ import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
+import axios from "axios";
 
 const form = useForm({
     name: "",
@@ -15,7 +16,25 @@ const form = useForm({
     image: "",
 });
 
+const handleImage = async (event) => {
+    console.log("file added");
+    const imageFile = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", imageFile);
 
+    try {
+        const response = await axios.post("/upload/image", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+
+        //set image url
+        form.image = response.data.imageUrl;
+    } catch (error) {
+        console.log("Error uploading image", error);
+    }
+};
 </script>
 
 <template>
@@ -68,7 +87,7 @@ const form = useForm({
                     id="category"
                     label="Category"
                     v-model="form.category"
-                    placeholder="Example. Fiction"
+                    placeholder="Eg. Fiction"
                     :value="form.category"
                 />
 
@@ -77,14 +96,7 @@ const form = useForm({
                     label="Sub Category"
                     v-model="form.sub_category"
                     :value="form.sub_category"
-                    placeholder="Sub Category"
-                />
-                <InputField
-                    id="image"
-                    label="Image URL"
-                    v-model="form.image"
-                    placeholder="Image URL"
-                    :value="form.image"
+                    placeholder="Eg. Science Fiction"
                 />
             </div>
 
@@ -93,7 +105,7 @@ const form = useForm({
                 <textarea
                     id="description"
                     v-model="form.description"
-                    placeholder="Enter Book Description"
+                    placeholder="Book Synopsis"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>
             </label>
@@ -108,8 +120,10 @@ const form = useForm({
                 >
                 <input
                     type="file"
+                    accept="image/*"
                     id="product-images-upload"
                     class="opacity-0 z-10"
+                    @input="handleImage"
                 />
             </PrimaryButton>
 

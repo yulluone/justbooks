@@ -14,7 +14,6 @@ const modalIsOpen = ref(false);
 provide("modalIsOpen", modalIsOpen);
 
 function setModalIsOpen(value) {
-    console.log(value);
     modalIsOpen.value = value;
 }
 </script>
