@@ -14,31 +14,35 @@ const form = useForm({
     category: "",
     sub_category: "",
     description: "",
-    image: "",
+    image: null,
 });
 
 const uploading = ref(false);
 const success = ref(false);
 
+// const handleSubmit = async (event) => {};
 
 const handleImage = async (event) => {
-    console.log("file added");
-    const imageFile = event.target.files[0];
-    const formData = new FormData();
-    formData.append("image", imageFile);
-
-    try {
-        const response = await axios.post("/upload/image", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        });
-
-        //set image url
-        form.image = response.data.imageUrl;
-    } catch (error) {
-        console.log("Error uploading image", error);
-    }
+    form.image = event.target.files[0];
+    // uploading.value = true;
+    // console.log("file added");
+    // const imageFile = event.target.files[0];
+    // const formData = new FormData();
+    // formData.append("image", imageFile);
+    // try {
+    //     const response = await axios.post("/upload/image", formData, {
+    //         headers: {
+    //             "Content-Type": "multipart/form-data",
+    //         },
+    //     });
+    //     //set image url
+    //     form.image = response.data.imageUrl;
+    //     uploading.value = false;
+    //     success.value = true;
+    // } catch (error) {
+    //     console.log("Error uploading image", error);
+    //     uploading.value = false;
+    // }
 };
 </script>
 
@@ -59,6 +63,7 @@ const handleImage = async (event) => {
                     placeholder="Book Name/Title"
                     v-model="form.name"
                     :value="form.name"
+                    required
                 />
                 <InputField
                     id="publisher"
@@ -128,12 +133,23 @@ const handleImage = async (event) => {
                     accept="image/*"
                     id="product-images-upload"
                     class="opacity-0 z-10"
-                    @input="handleImage"
+                    @change="handleImage"
                 />
             </PrimaryButton>
 
             <InputError :message="form.errors.message" class="mt-2" />
-            <PrimaryButton class="mt-4 justify-center !py-3.5"
+            <PrimaryButton
+                type="submit"
+                :disabled="
+                    !form.name ||
+                    !form.isbn ||
+                    !form.category ||
+                    !form.sub_category ||
+                    !form.publisher ||
+                    !form.description ||
+                    !form.image
+                "
+                class="mt-4 justify-center !py-3.5"
                 >Add Book</PrimaryButton
             >
         </form>

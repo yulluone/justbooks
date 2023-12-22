@@ -42,12 +42,22 @@ class BookController extends Controller
 			'sub_category' => "required|string|max:100",
 			'description' => "required|string",
 			'pages' => "required|integer|max:2147483648",
-			'image' => "required|string|max:200"
+			'image' => 'required|image'
 		]);
 
-		$request->user()->books()->create($validated);
+		$imageUploadResponse = app(ImageUploadController::class)->uploadImage($request);
 
-		return redirect(route('books.index'));
+		if ($imageUploadResponse->getStatusCode() === 200) {
+			$imageData = json_decode($imageUploadResponse->getContent(), true);
+			$imageUrl = $imageData['imageUrl']; // Get the image URL
+			$validated['image'] = $imageUrl;
+
+			$request->user()->books()->create($validated);
+
+			return redirect(route('books.index'));
+		}
+
+		return back()->withErrors(['image' => 'Image upload failed']);
 
 	}
 
