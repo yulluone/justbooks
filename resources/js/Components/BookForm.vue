@@ -3,7 +3,6 @@ import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
-import axios from "axios";
 import { ref } from "vue";
 
 const form = useForm({
@@ -17,32 +16,11 @@ const form = useForm({
     image: null,
 });
 
-const uploading = ref(false);
 const success = ref(false);
-
-// const handleSubmit = async (event) => {};
+const loading = ref(false);
 
 const handleImage = async (event) => {
     form.image = event.target.files[0];
-    // uploading.value = true;
-    // console.log("file added");
-    // const imageFile = event.target.files[0];
-    // const formData = new FormData();
-    // formData.append("image", imageFile);
-    // try {
-    //     const response = await axios.post("/upload/image", formData, {
-    //         headers: {
-    //             "Content-Type": "multipart/form-data",
-    //         },
-    //     });
-    //     //set image url
-    //     form.image = response.data.imageUrl;
-    //     uploading.value = false;
-    //     success.value = true;
-    // } catch (error) {
-    //     console.log("Error uploading image", error);
-    //     uploading.value = false;
-    // }
 };
 </script>
 
@@ -52,62 +30,91 @@ const handleImage = async (event) => {
             class="flex flex-col gap-2"
             @submit.prevent="
                 form.post(route('books.store'), {
-                    onSuccess: () => form.reset(),
+                    onProgress: () => (loading = true),
+                    onSuccess: () => {
+                        form.reset(), (success = true), (loading = false);
+                    },
                 })
             "
         >
             <div class="grid grid-cols-2 gap-2">
-                <InputField
-                    id="bookName"
-                    label="Name"
-                    placeholder="Book Name/Title"
-                    v-model="form.name"
-                    :value="form.name"
-                    required
-                />
-                <InputField
-                    id="publisher"
-                    label="Publisher"
-                    v-model="form.publisher"
-                    placeholder="Book Publisher"
-                    :value="form.publisher"
-                />
+                <div>
+                    <InputField
+                        id="bookName"
+                        label="Name"
+                        placeholder="Book Name/Title"
+                        v-model="form.name"
+                        :value="form.name"
+                        required
+                    />
+                    <InputError :message="form.errors.name" class="mt-2" />
+                </div>
+                <div>
+                    <InputField
+                        id="publisher"
+                        label="Publisher"
+                        v-model="form.publisher"
+                        placeholder="Book Publisher"
+                        :value="form.publisher"
+                    />
+                    <InputError :message="form.errors.publisher" class="mt-2" />
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-                <InputField
-                    id="isbn"
-                    label="ISBN"
-                    v-model="form.isbn"
-                    placeholder="Book Serial Number/ Bar Code Number"
-                    :value="form.isbn"
-                />
-                <InputField
-                    type="number"
-                    label="Number of Pages"
-                    id="pages"
-                    v-model="form.pages"
-                    placeholder="Number of Pages"
-                    :value="form.pages"
-                />
+                <div>
+                    <InputField
+                        id="isbn"
+                        label="ISBN"
+                        v-model="form.isbn"
+                        placeholder="Book Serial Number/ Bar Code Number"
+                        :value="form.isbn"
+                    />
+
+                    <InputError :message="form.errors.isbn" class="mt-2" />
+                </div>
+
+                <div>
+                    <InputField
+                        type="number"
+                        label="Number of Pages"
+                        id="pages"
+                        v-model="form.pages"
+                        placeholder="Number of Pages"
+                        :value="form.pages"
+                    />
+
+                    <InputError :message="form.errors.pages" class="mt-2" />
+                </div>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-                <InputField
-                    id="category"
-                    label="Category"
-                    v-model="form.category"
-                    placeholder="Eg. Fiction"
-                    :value="form.category"
-                />
+                <div>
+                    <InputField
+                        id="category"
+                        label="Category"
+                        v-model="form.category"
+                        placeholder="Eg. Fiction"
+                        :value="form.category"
+                    />
 
-                <InputField
-                    id="subCategory"
-                    label="Sub Category"
-                    v-model="form.sub_category"
-                    :value="form.sub_category"
-                    placeholder="Eg. Science Fiction"
-                />
+                    <InputError :message="form.errors.category" class="mt-2" />
+                </div>
+
+                <div>
+                    <InputField
+                        id="subCategory"
+                        label="Sub Category"
+                        v-model="form.sub_category"
+                        :value="form.sub_category"
+                        placeholder="Eg. Science Fiction"
+                    />
+
+                    <InputError
+                        :message="form.errors.sub_category"
+                        class="mt-2"
+                    />
+                </div>
             </div>
 
             <label for="description">
@@ -118,26 +125,31 @@ const handleImage = async (event) => {
                     placeholder="Book Synopsis"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>
+
+                <InputError :message="form.errors.description" class="mt-2" />
             </label>
 
             <PrimaryButton
-                class="flex flex-col w-full mt-2 !bg-transparent ring-1 ring-gray-800 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                class="flex flex-col w-full mt-2 !bg-transparent !p-0 ring-1 ring-gray-800 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >
                 <label
                     htmlFor="product-images-upload"
-                    class="z-0 absolute pt-0.5 text-black"
-                    >Add Images</label
+                    class="z-0 absolute pt-0.5 text-black flex items-center justify-center h-10 w-[50vw] xs:w-[70vw] overflow-hidden"
                 >
+                    <span v-if="form.image" class="w-full">
+                        {{ form.image.name }}
+                    </span>
+                    <span v-else> Add Image </span>
+                </label>
                 <input
                     type="file"
                     accept="image/*"
                     id="product-images-upload"
-                    class="opacity-0 z-10"
+                    class="opacity-0 z-10 w-full h-10"
                     @change="handleImage"
                 />
             </PrimaryButton>
 
-            <InputError :message="form.errors.message" class="mt-2" />
             <PrimaryButton
                 type="submit"
                 :disabled="
@@ -150,7 +162,9 @@ const handleImage = async (event) => {
                     !form.image
                 "
                 class="mt-4 justify-center !py-3.5"
-                >Add Book</PrimaryButton
+                >{{
+                    loading ? "Adding..." : success ? " Book Added" : "Add Book"
+                }}</PrimaryButton
             >
         </form>
     </div>
