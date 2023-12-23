@@ -16,7 +16,7 @@ class BookController extends Controller
 	public function index(): Response
 	{
 		return Inertia::render('Books/Index', [
-			//
+			'books' => Book::with('user:id, name')->latest()->get(),
 		]);
 	}
 

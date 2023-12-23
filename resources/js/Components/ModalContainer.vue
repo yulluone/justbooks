@@ -5,18 +5,17 @@ import {
     Dialog,
     DialogOverlay,
 } from "@headlessui/vue";
-import XMark from "./Icons/XMark.vue";
-import { inject } from "vue";
+import XMark from "./XMark.vue";
 
-const isOpen = inject("modalIsOpen");
+defineProps(["show", "close"]);
 
-const emit = defineEmits(["close-modal"]);
+const emit = defineEmits(["close"]);
 </script>
 
 <template>
-    <TransitionRoot :show="isOpen" as="template">
+    <TransitionRoot :show="show" as="template">
         <Dialog
-            :open="isOpen"
+            :open="show"
             class="fixed inset-0 z-50 overflow-y-auto overflow-x-hidden xs:p-4"
         >
             <div class="min-h-screen text-center">
@@ -53,7 +52,7 @@ const emit = defineEmits(["close-modal"]);
                             class="relative flex min-h-screen items-center overflow-hidden xs:block xs:min-h-[auto] rounded-md"
                         >
                             <button
-                                @click="emit('close-modal')"
+                                @click="emit('close')"
                                 aria-label="Close panel"
                                 class="absolute top-5 z-10 text-dark-900 outline-none transition-all hover:text-dark focus-visible:outline-none right-4 dark:text-dark-800 hover:dark:text-light-200 md:top-6 md:right-5 lg:top-7 lg:right-7"
                             >
@@ -61,7 +60,7 @@ const emit = defineEmits(["close-modal"]);
                                     class="h-4 w-4 focus-visible:outline-none lg:h-[18px] lg:w-[18px] 3xl:h-5 3xl:w-5"
                                 />
                             </button>
-                            <div class="h-full w-full">
+                            <div class="h-full w-full ">
                                 <slot />
                             </div>
                         </div>

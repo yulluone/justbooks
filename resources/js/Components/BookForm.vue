@@ -5,15 +5,17 @@ import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
 import { ref } from "vue";
 
+const props = defineProps(["book"]);
+
 const form = useForm({
-    name: "",
-    publisher: "",
-    isbn: "",
-    pages: 1,
-    category: "",
-    sub_category: "",
-    description: "",
-    image: null,
+    name: props.book.name,
+    publisher: props.book.publisher,
+    isbn: props.book.isbn,
+    pages: props.book.pages,
+    category: props.book.category,
+    sub_category: props.book.sub_category,
+    description: props.book.description,
+    image: props.book.image,
 });
 
 const success = ref(false);
@@ -21,11 +23,12 @@ const loading = ref(false);
 
 const handleImage = async (event) => {
     form.image = event.target.files[0];
+    console.log(props.book);
 };
 </script>
 
 <template>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 bg-white rounded">
         <form
             class="flex flex-col gap-2"
             @submit.prevent="
@@ -137,7 +140,7 @@ const handleImage = async (event) => {
                     class="z-0 absolute pt-0.5 text-black flex items-center justify-center h-10 w-[50vw] xs:w-[70vw] overflow-hidden"
                 >
                     <span v-if="form.image" class="w-full">
-                        {{ form.image.name }}
+                        {{ form.image.name ? form.image.name : form.image }}
                     </span>
                     <span v-else> Add Image </span>
                 </label>
