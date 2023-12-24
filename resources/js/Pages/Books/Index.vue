@@ -19,19 +19,19 @@ defineProps(["books"]);
 
 provide("modalIsOpen", modalIsOpen);
 
-function setModalIsOpen(value) {
+function toggleBookFormModal(value) {
     modalIsOpen.value = value;
     if (!value) {
         selectedBook.value = {};
     }
 }
 
-function handleEditBook(book) {
+function openEditModal(book) {
     selectedBook.value = book;
-    setModalIsOpen(true);
+    toggleBookFormModal(true);
 }
 
-function handleDeleteBook(book) {
+function openDeleteModal(book) {
     selectedBook.value = book;
     deleteModalIsOpen.value = true;
 }
@@ -44,7 +44,7 @@ function handleDeleteBook(book) {
             <div class="flex w-full bg-gray-100 justify-end px-7 py-3 mt-7">
                 <PrimaryButton
                     v-if="$page.props.auth.user.isAdmin"
-                    @click="setModalIsOpen(true)"
+                    @click="toggleBookFormModal(true)"
                     >Add Book</PrimaryButton
                 >
             </div>
@@ -54,12 +54,12 @@ function handleDeleteBook(book) {
                 v-for="book in books"
                 :key="book.id"
                 :book="book"
-                @edit="handleEditBook"
-                @delete="handleDeleteBook"
+                @edit="openEditModal"
+                @delete="openDeleteModal"
             />
         </div>
         <!-- 
-        <ModalContainer @close-modal="setModalIsOpen(false)">
+        <ModalContainer @close-modal="toggleBookFormModal(false)">
             <span class="bg-dark w-full">hi</span>
             <BookForm />
         </ModalContainer>
@@ -78,7 +78,7 @@ function handleDeleteBook(book) {
         <ModalContainer
             id="book-form-modal"
             :show="modalIsOpen"
-            @close="setModalIsOpen(false)"
+            @close="toggleBookFormModal(false)"
         >
             <!-- <span class="bg-dark w-full">hi</span> -->
             <BookForm :book="selectedBook" />

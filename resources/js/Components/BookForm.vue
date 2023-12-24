@@ -3,7 +3,9 @@ import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputField from "./InputField.vue";
-import { ref } from "vue";
+import { ref, watchEffect, onUnmounted } from "vue";
+import { watch } from "vue";
+import { onMounted } from "vue";
 
 const props = defineProps(["book"]);
 
@@ -23,8 +25,32 @@ const loading = ref(false);
 
 const handleImage = async (event) => {
     form.image = event.target.files[0];
-    console.log(props.book);
+    // console.log("add image", addImageButton.value.clientWidth);
 };
+
+const addImageButton = ref(null);
+const addImageLabel = ref(null);
+const labelWidth = ref(0);
+
+const changeWidth = () => {
+    if (addImageButton.value) {
+        labelWidth.value = addImageButton.value.clientWidth;
+    }
+};
+
+onMounted(() => {
+    labelWidth.value = addImageButton.value.clientWidth;
+});
+
+// Watch for changes in clientWidth using watchEffect
+watchEffect(() => {
+    window.addEventListener("resize", changeWidth); // Optional: Watch for window resize
+});
+
+// Clean up event listener on component unmount
+onUnmounted(() => {
+    window.removeEventListener("resize", changeWidth);
+});
 </script>
 
 <template>
@@ -136,8 +162,12 @@ const handleImage = async (event) => {
                 class="flex flex-col w-full mt-2 !bg-transparent !p-0 ring-1 ring-gray-800 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >
                 <label
+                    :style="{
+                        width: labelWidth ? 0.7 * labelWidth + 'px' : '50vw',
+                    }"
+                    ref="addImageLabel"
                     htmlFor="product-images-upload"
-                    class="z-0 absolute pt-0.5 text-black flex items-center justify-center h-10 w-[50vw] xs:w-[70vw] overflow-hidden"
+                    class="z-0 absolute pt-0.5 text-black flex items-center justify-center h-10 overflow-hidden"
                 >
                     <span v-if="form.image" class="w-full">
                         {{ form.image.name ? form.image.name : form.image }}
@@ -150,6 +180,7 @@ const handleImage = async (event) => {
                     id="product-images-upload"
                     class="opacity-0 z-10 w-full h-10"
                     @change="handleImage"
+                    ref="addImageButton"
                 />
             </PrimaryButton>
 
