@@ -12,6 +12,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Book from "@/Components/Book.vue";
 
 const modalIsOpen = ref(false);
+const editing = ref(false);
 const deleteModalIsOpen = ref(false);
 const selectedBook = ref({});
 
@@ -28,6 +29,7 @@ function toggleBookFormModal(value) {
 
 function openEditModal(book) {
     selectedBook.value = book;
+    editing.value = true;
     toggleBookFormModal(true);
 }
 
@@ -81,7 +83,7 @@ function openDeleteModal(book) {
             @close="toggleBookFormModal(false)"
         >
             <!-- <span class="bg-dark w-full">hi</span> -->
-            <BookForm :book="selectedBook" />
+            <BookForm :book="selectedBook" :editing="editing" />
         </ModalContainer>
     </AuthenticatedLayout>
 </template>

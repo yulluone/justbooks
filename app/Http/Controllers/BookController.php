@@ -80,9 +80,40 @@ class BookController extends Controller
 	/**
 		* Update the specified resource in storage.
 		*/
-	public function update(Request $request, Book $book)
+	public function update(Request $request, Book $book): RedirectResponse
 	{
-		//
+		$validated = $request->validate([
+			'name' => "required|string|max:200",
+			'publisher' => "required|string|max:50",
+			'isbn' => "required|string|max:50",
+			'category' => "required|string|max:100",
+			'sub_category' => "required|string|max:100",
+			'description' => "required|string",
+			'pages' => "required|integer|max:2147483648",
+			"image" => "required"
+		]);
+
+		if ($request->hasFile("image")) {
+			$imageUploadResponse = app(ImageUploadController::class)->uploadImage($request);
+
+			if ($imageUploadResponse->getStatusCode() === 200) {
+				$imageData = json_decode($imageUploadResponse->getContent(), true);
+				$imageUrl = $imageData['imageUrl']; // Get the image URL
+				$validated['image'] = $imageUrl;
+
+				$book->update($validated);
+
+				return redirect(route('books.index'));
+			}
+
+			return back()->withErrors(['image' => 'Image upload failed']);
+
+		}
+
+		$book->update($validated);
+		return redirect(route('books.index'));
+
+
 	}
 
 	/**

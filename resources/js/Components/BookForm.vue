@@ -7,7 +7,7 @@ import { ref, watchEffect, onUnmounted } from "vue";
 import { watch } from "vue";
 import { onMounted } from "vue";
 
-const props = defineProps(["book"]);
+const props = defineProps(["book", "editing"]);
 
 const form = useForm({
     name: props.book.name,
@@ -22,10 +22,33 @@ const form = useForm({
 
 const success = ref(false);
 const loading = ref(false);
+const canSubmit = ref(false);
 
 const handleImage = async (event) => {
     form.image = event.target.files[0];
     // console.log("add image", addImageButton.value.clientWidth);
+};
+
+const handleSubmit = async () => {
+    const resourceRoute = props.editing ? "books.update" : "books.store";
+    const params = props.editing && props.book.id;
+    try {
+        props.editing
+            ? await form.put(route(resourceRoute, params), {
+                  onProgress: () => (loading = true),
+                  onSuccess: () => {
+                      form.reset(), (success = true), (loading = false);
+                  },
+              })
+            : await form.post(route(resourceRoute, params), {
+                  onProgress: () => (loading = true),
+                  onSuccess: () => {
+                      form.reset(), (success = true), (loading = false);
+                  },
+              });
+    } catch (error) {
+        throw error;
+    }
 };
 
 const addImageButton = ref(null);
@@ -55,17 +78,7 @@ onUnmounted(() => {
 
 <template>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 bg-white rounded">
-        <form
-            class="flex flex-col gap-2"
-            @submit.prevent="
-                form.post(route('books.store'), {
-                    onProgress: () => (loading = true),
-                    onSuccess: () => {
-                        form.reset(), (success = true), (loading = false);
-                    },
-                })
-            "
-        >
+        <form class="flex flex-col gap-2" @submit.prevent="handleSubmit">
             <div class="grid grid-cols-2 gap-2">
                 <div>
                     <InputField
@@ -170,7 +183,13 @@ onUnmounted(() => {
                     class="z-0 absolute pt-0.5 text-black flex items-center justify-center h-10 overflow-hidden"
                 >
                     <span v-if="form.image" class="w-full">
-                        {{ form.image.name ? form.image.name : form.image }}
+                        {{
+                            editing
+                                ? "Replace Image"
+                                : form.image.name
+                                ? form.image.name
+                                : form.image
+                        }}
                     </span>
                     <span v-else> Add Image </span>
                 </label>
@@ -197,7 +216,17 @@ onUnmounted(() => {
                 "
                 class="mt-4 justify-center !py-3.5"
                 >{{
-                    loading ? "Adding..." : success ? " Book Added" : "Add Book"
+                    loading && !editing
+                        ? "Adding..."
+                        : loading && editing
+                        ? "Updating..."
+                        : success && !editing
+                        ? " Book Added"
+                        : success && editing
+                        ? "Book Updated"
+                        : !success && editing
+                        ? "Save Changes"
+                        : "Add Book"
                 }}</PrimaryButton
             >
         </form>
