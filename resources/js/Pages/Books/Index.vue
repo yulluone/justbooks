@@ -2,7 +2,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import BookForm from "@/Components/BookForm.vue";
 import ModalContainer from "@/Components/ModalContainer.vue";
-import Modal from "@/Components/Modal.vue";
 
 import { Head } from "@inertiajs/vue3";
 
@@ -60,29 +59,12 @@ function openDeleteModal(book) {
                 @delete="openDeleteModal"
             />
         </div>
-        <!-- 
-        <ModalContainer @close-modal="toggleBookFormModal(false)">
-            <span class="bg-dark w-full">hi</span>
-            <BookForm />
-        </ModalContainer>
-								 -->
-
-        <ModalContainer
-            id="delete-form-modal"
-            :show="deleteModalIsOpen"
-            @close="() => (deleteModalIsOpen = false)"
-        >
-            <div>
-                <p>Delete {{ selectedBook.name }}</p>
-            </div>
-        </ModalContainer>
 
         <ModalContainer
             id="book-form-modal"
             :show="modalIsOpen"
             @close="toggleBookFormModal(false)"
         >
-            <!-- <span class="bg-dark w-full">hi</span> -->
             <BookForm :book="selectedBook" :editing="editing" />
         </ModalContainer>
     </AuthenticatedLayout>

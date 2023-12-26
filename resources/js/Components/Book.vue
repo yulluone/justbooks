@@ -2,6 +2,7 @@
 import ApplicationLogo from "./ApplicationLogo.vue";
 import EditIcon from "./EditIcon.vue";
 import DeleteIcon from "./DeleteIcon.vue";
+import { Link } from "@inertiajs/vue3";
 
 defineProps(["book"]);
 const emit = defineEmits(["edit", "delete"]);
@@ -35,10 +36,15 @@ const emit = defineEmits(["edit", "delete"]);
                         @on-click="emit('edit', book)"
                         class="w-6 h-6 hover:bg-gray-200 p-1 rounded"
                     />
-                    <DeleteIcon
-                        @on-click="emit('delete', book)"
-                        class="w-6 h-6 hover:bg-gray-200 p-1 rounded"
-                    />
+
+                    <Link
+                        :href="route('books.destroy', book.id)"
+                        method="delete"
+                    >
+                        <DeleteIcon
+                            class="w-6 h-6 hover:bg-gray-200 p-1 rounded"
+                        />
+                    </Link>
                 </div>
             </div>
         </div>

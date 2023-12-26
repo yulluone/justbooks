@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'checkisadmin'])->group(function () {
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 	Route::resource('books', BookController::class)
-		->only(['index', 'store', 'update']);
+		->only(['index', 'store', 'update', 'destroy']);
 	// upload image
 	Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
 });

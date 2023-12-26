@@ -82,6 +82,9 @@ class BookController extends Controller
 		*/
 	public function update(Request $request, Book $book): RedirectResponse
 	{
+
+		$this->authorize('update', $book);
+
 		$validated = $request->validate([
 			'name' => "required|string|max:200",
 			'publisher' => "required|string|max:50",
@@ -119,8 +122,13 @@ class BookController extends Controller
 	/**
 		* Remove the specified resource from storage.
 		*/
-	public function destroy(Book $book)
+	public function destroy(Book $book): RedirectResponse
 	{
-		//
+		$this->authorize('delete', $book);
+
+		$book->delete();
+
+		return redirect(route('books.index'));
+
 	}
 }
