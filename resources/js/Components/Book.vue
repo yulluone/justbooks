@@ -38,6 +38,7 @@ const emit = defineEmits(["edit", "delete"]);
                     />
 
                     <Link
+                        as="button"
                         :href="route('books.destroy', book.id)"
                         method="delete"
                     >
