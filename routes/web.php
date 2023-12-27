@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookLoanController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\ProfileController;
@@ -35,6 +36,8 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+	// borrow book
+	Route::resource('loans', BookLoanController::class)->only(['index', 'store']);
 });
 
 Route::middleware(['auth', 'checkisadmin'])->group(function () {

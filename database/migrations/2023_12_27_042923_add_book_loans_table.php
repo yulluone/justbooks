@@ -12,16 +12,16 @@ return new class extends Migration {
 	{
 		Schema::create('book_loans', function (Blueprint $table) {
 			$table->id();
-			$table->foreignId('user_id')->constrained()->onDelete('cascase');
-			$table->foreignId('book_id')->constrained()->onDelete('cascade');
+			$table->foreignId('user_id')->constrained('users');
+			$table->foreignId('book_id')->constrained('books');
 			$table->date('loan_date');
-			$table->date('due_dloan_dateate');
-			$table->date('return_date');
-			$table->string('extended');
-			$table->date('extension_date');
-			$table->integer('penalty_amount');
-			$table->string('penalty_status');
-			$table->string('status');
+			$table->date('due_date');
+			$table->date('return_date')->nullable();
+			$table->boolean('extended')->default(false);
+			$table->date('extension_date')->nullable();
+			$table->integer('penalty_amount')->default(0);
+			$table->string('penalty_status')->default('unpaid');
+			$table->string('status')->default('active');
 			$table->foreignId('added_by')->constrained('users');
 			$table->timestamps();
 			$table->softDeletes();

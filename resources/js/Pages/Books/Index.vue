@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import BookForm from "@/Components/BookForm.vue";
 import ModalContainer from "@/Components/ModalContainer.vue";
+import BookDataTable from "@/Components/BookDataTable.vue";
 
 import { Head } from "@inertiajs/vue3";
 
@@ -50,6 +51,9 @@ function openDeleteModal(book) {
                 >
             </div>
         </div>
+
+        <BookDataTable :books="books" />
+
         <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
             <Book
                 v-for="book in books"

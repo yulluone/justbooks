@@ -7,16 +7,25 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
 	/**
 		* Display a listing of the resource.
 		*/
-	public function index(): Response
+	public function index()
 	{
+		$user = Auth::user();
+
+		if ($user && $user->isAdmin) {
+			$books = Book::latest()->get();
+		} else {
+			$books = Book::where('available', true)->with('user:id,name')->latest()->get();
+		}
+
 		return Inertia::render('Books/Index', [
-			'books' => Book::with('user:id, name')->latest()->get(),
+			'books' => $books,
 		]);
 	}
 

@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.4.8"
   }
 }

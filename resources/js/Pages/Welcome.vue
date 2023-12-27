@@ -1,5 +1,6 @@
 <script setup>
 import { Head, Link, router } from "@inertiajs/vue3";
+import BookDataTable from "@/Components/BookDataTable.vue";
 
 defineProps({
     canLogin: {
@@ -34,7 +35,10 @@ defineProps({
             >
         </div>
 
-        <div class="max-w-7xl mx-auto p-6 lg:p-8 flex flex-col justify-center">
+        <div
+            v-if="!$page.props.auth.user"
+            class="max-w-7xl mx-auto p-6 lg:p-8 flex flex-col justify-center"
+        >
             <div class="flex justify-center group">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +60,10 @@ defineProps({
                 class="font-semibold text-center text-gray-600 border-2 border-gray-600 py-1 hover:border-gray-900 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                 >Log in</Link
             >
+        </div>
+
+        <div v-if="$page.props.auth.user">
+            <BookDataTable />
         </div>
     </div>
 </template>

@@ -48,4 +48,10 @@ class User extends Authenticatable
 	{
 		return $this->hasMany(Book::class, 'added_by');
 	}
+
+	public function book_loans(): HasMany
+	{
+		//do something to also link "book_id"
+		return $this->hasMany(BookLoan::class);
+	}
 }
