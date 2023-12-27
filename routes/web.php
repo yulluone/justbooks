@@ -36,9 +36,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
 	Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-	// borrow book
-	Route::resource('loans', BookLoanController::class)->only(['index', 'store']);
+	Route::resource('loans', BookLoanController::class)->only(['index', 'store', 'update']);
 	Route::resource('books', BookController::class)->only(['index']);
+	Route::put('/loan/extend', [BookLoanController::class, 'extend'])->name('loan.extend');
+
 });
 
 Route::middleware(['auth', 'checkisadmin'])->group(function () {
@@ -47,6 +48,9 @@ Route::middleware(['auth', 'checkisadmin'])->group(function () {
 		->only(['store', 'update', 'destroy']);
 	// upload image
 	Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
+	Route::put('/loan/approve', [BookLoanController::class, 'approve'])->name('loan.approve');
+	Route::put('/loan/receive', [BookLoanController::class, 'receive'])->name('loan.receive');
+
 });
 
 

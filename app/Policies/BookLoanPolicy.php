@@ -30,7 +30,7 @@ class BookLoanPolicy
 		*/
 	public function store(User $user, Book $book): bool
 	{
-		return $book->availble;
+		return $book->available;
 	}
 
 	/**
@@ -38,7 +38,7 @@ class BookLoanPolicy
 		*/
 	public function update(User $user, BookLoan $bookLoan): bool
 	{
-		//
+		return true;
 	}
 
 	/**
@@ -63,5 +63,10 @@ class BookLoanPolicy
 	public function forceDelete(User $user, BookLoan $bookLoan): bool
 	{
 		//
+	}
+
+	public function approve(User $user): bool
+	{
+		return true;
 	}
 }

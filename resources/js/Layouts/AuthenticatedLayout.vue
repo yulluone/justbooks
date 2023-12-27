@@ -13,7 +13,9 @@ const showingNavigationDropdown = ref(false);
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100 sticky top-0">
+            <nav
+                class="bg-white border-b border-gray-100 z-50 w-full sticky top-0"
+            >
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -48,6 +50,11 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('books.index')"
                                     >Books</NavLink
                                 >
+                                <NavLink
+                                    :href="route('loans.index')"
+                                    :active="route().current('loans.index')"
+                                    >Loans</NavLink
+                                >
 
                                 <!-- Register new user -->
                                 <NavLink
@@ -58,9 +65,11 @@ const showingNavigationDropdown = ref(false);
                                 >
                             </div>
 
-                            <div class="sm:flex sm:items-center sm:ms-6">
+                            <div
+                                class="sm:flex sm:items-center sm:ms-6 dropdown-nav"
+                            >
                                 <!-- Settings Dropdown -->
-                                <div class="ms-3 relative">
+                                <div class="ms-3">
                                     <Dropdown align="right" width="48">
                                         <template #trigger>
                                             <span
@@ -178,6 +187,12 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('books.index')"
                             >Books</ResponsiveNavLink
                         >
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
+                            :href="route('loans.index')"
+                            :active="route().current('loans.index')"
+                            >Loans</ResponsiveNavLink
+                        >
 
                         <!-- Register New User -->
                         <ResponsiveNavLink
@@ -229,3 +244,16 @@ const showingNavigationDropdown = ref(false);
         </div>
     </div>
 </template>
+
+<style>
+/* Dropdown nav */
+.dropdown-nav {
+    z-index: 1000;
+}
+
+/* Data table */
+.data-table {
+    z-index: 0;
+    position: relative;
+}
+</style>

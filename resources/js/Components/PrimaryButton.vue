@@ -1,5 +1,6 @@
 <template>
     <button
+        @click="emit('onClick')"
         :type="type"
         :disabled="disabled"
         :class="
@@ -14,4 +15,5 @@
 
 <script setup>
 defineProps(["type", "disabled"]);
+const emit = defineEmits("onClick");
 </script>

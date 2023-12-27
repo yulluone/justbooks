@@ -22,7 +22,7 @@ class Book extends Model
 		'description',
 		'pages',
 		'image',
-		'availble'
+		'available'
 	];
 
 	function user(): BelongsTo

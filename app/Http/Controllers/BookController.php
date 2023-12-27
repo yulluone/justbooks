@@ -21,7 +21,7 @@ class BookController extends Controller
 		if ($user && $user->isAdmin) {
 			$books = Book::latest()->get();
 		} else {
-			$books = Book::where('availble', true)->with('user:id,name')->latest()->get();
+			$books = Book::where('available', true)->latest()->get();
 		}
 
 		return Inertia::render('Books/Index', [

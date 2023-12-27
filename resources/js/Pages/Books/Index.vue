@@ -42,33 +42,37 @@ function openDeleteModal(book) {
 <template>
     <Head title="Books" />
     <AuthenticatedLayout>
-        <div v-if="$page.props.auth.user.isAdmin" class="sticky top-16">
-            <div class="flex w-full bg-gray-100 justify-end px-7 py-3 mt-7">
-                <PrimaryButton @click="toggleBookFormModal(true)"
-                    >Add Book</PrimaryButton
-                >
+        <div>
+            <div v-if="$page.props.auth.user.isAdmin" class="">
+                <div class="flex w-full bg-gray-100 justify-end px-7 py-3 mt-7">
+                    <PrimaryButton @click="toggleBookFormModal(true)"
+                        >Add Book</PrimaryButton
+                    >
+                </div>
             </div>
+
+            <div class="data-table">
+                <BookDataTable :books="books" />
+            </div>
+
+            <!-- <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
+										<Book
+														v-for="book in books"
+														:key="book.id"
+														:book="book"
+														@edit="openEditModal"
+														@delete="openDeleteModal"
+										/>
+						</div> -->
+
+            <ModalContainer
+                v-if="$page.props.auth.user.isAdmin"
+                id="book-form-modal"
+                :show="modalIsOpen"
+                @close="toggleBookFormModal(false)"
+            >
+                <BookForm :book="selectedBook" :editing="editing" />
+            </ModalContainer>
         </div>
-
-        <BookDataTable :books="books" />
-
-        <!-- <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">
-            <Book
-                v-for="book in books"
-                :key="book.id"
-                :book="book"
-                @edit="openEditModal"
-                @delete="openDeleteModal"
-            />
-        </div> -->
-
-        <ModalContainer
-            v-if="$page.props.auth.user.isAdmin"
-            id="book-form-modal"
-            :show="modalIsOpen"
-            @close="toggleBookFormModal(false)"
-        >
-            <BookForm :book="selectedBook" :editing="editing" />
-        </ModalContainer>
     </AuthenticatedLayout>
 </template>

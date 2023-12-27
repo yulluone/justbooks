@@ -11,7 +11,7 @@ return new class extends Migration {
 	public function up(): void
 	{
 		Schema::table('books', function (Blueprint $table) {
-			$table->boolean('availble')->default(true);
+			$table->boolean('available')->default(true);
 		});
 	}
 

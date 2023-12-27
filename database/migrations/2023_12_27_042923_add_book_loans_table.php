@@ -21,7 +21,7 @@ return new class extends Migration {
 			$table->date('extension_date')->nullable();
 			$table->integer('penalty_amount')->default(0);
 			$table->string('penalty_status')->default('unpaid');
-			$table->string('status')->default('active');
+			$table->string('status')->default('pending');
 			$table->foreignId('added_by')->constrained('users');
 			$table->timestamps();
 			$table->softDeletes();
