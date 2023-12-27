@@ -38,12 +38,13 @@ Route::middleware('auth')->group(function () {
 	Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 	// borrow book
 	Route::resource('loans', BookLoanController::class)->only(['index', 'store']);
+	Route::resource('books', BookController::class)->only(['index']);
 });
 
 Route::middleware(['auth', 'checkisadmin'])->group(function () {
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 	Route::resource('books', BookController::class)
-		->only(['index', 'store', 'update', 'destroy']);
+		->only(['store', 'update', 'destroy']);
 	// upload image
 	Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
 });

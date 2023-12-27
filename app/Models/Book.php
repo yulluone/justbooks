@@ -21,7 +21,8 @@ class Book extends Model
 		'sub_category',
 		'description',
 		'pages',
-		'image'
+		'image',
+		'availble'
 	];
 
 	function user(): BelongsTo

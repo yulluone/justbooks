@@ -7,16 +7,27 @@ use App\Models\BookLoan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class BookLoanController extends Controller
 {
 	/**
 		* Display a listing of the resource.
 		*/
-	public function index(): Response
+	public function index()
 	{
-		return response('Book Loans');
+		$user = Auth::user();
+
+		if ($user->isAdmin) {
+			$loans = BookLoan::latest()->get();
+		} else {
+			$loans = BookLoan::with("availble", true)->latest()->get();
+		}
+
+		return Inertia::render('Loans/Index', [
+			'loans' => $loans,
+		]);
 	}
 
 	/**
@@ -30,10 +41,10 @@ class BookLoanController extends Controller
 	/**
 		* Store a newly created resource in storage.
 		*/
-	public function store(Request $request, Book $book): RedirectResponse
+	public function store(Request $request): RedirectResponse
 	{
 
-		$borrowed_book = Book::find($request->input('book_id'));
+		$book = Book::find($request->input('book_id'));
 
 		// $this->authorize('store', $book);
 
@@ -45,16 +56,16 @@ class BookLoanController extends Controller
 		$bookLoan = $request->user()->book_loans()->create([
 			'loan_date' => $validated['loan_date'],
 			'due_date' => $validated['due_date'],
-			'book_id' => $borrowed_book->id,
+			'book_id' => $book->id,
 			'added_by' => $request->user()->id,
 		]);
 
 		// Associate this loan with the book
-		$bookLoan->book()->associate($borrowed_book);
+		$bookLoan->book()->associate($book);
 		$bookLoan->save();
 
 		// Update book availabiliy
-		$book->update(['availble' => 0]);
+		$book->update(['availble' => false]);
 
 		return redirect(route('books.index'));
 

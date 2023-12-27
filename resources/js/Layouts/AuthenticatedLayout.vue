@@ -44,7 +44,6 @@ const showingNavigationDropdown = ref(false);
                             <div class="flex gap-4">
                                 <!-- Books Books Books -->
                                 <NavLink
-                                    v-if="$page.props.auth.user.isAdmin"
                                     :href="route('books.index')"
                                     :active="route().current('books.index')"
                                     >Books</NavLink
