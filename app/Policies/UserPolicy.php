@@ -12,7 +12,7 @@ class UserPolicy
 		*/
 	public function viewAny(User $user): bool
 	{
-		//
+		return $user->isAdmin;
 	}
 
 	/**
@@ -72,6 +72,5 @@ class UserPolicy
 	{
 		return $user->isAdmin;
 	}
-
 
 }

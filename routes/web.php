@@ -5,6 +5,7 @@ use App\Http\Controllers\BookLoanController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ImageUploadController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -46,6 +47,8 @@ Route::middleware(['auth', 'checkisadmin'])->group(function () {
 	Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 	Route::resource('books', BookController::class)
 		->only(['store', 'update', 'destroy']);
+	Route::resource('users', UserController::class)
+		->only(['index', 'updateIsAdmin', 'destroy']);
 	// upload image
 	Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
 	Route::put('/loan/approve', [BookLoanController::class, 'approve'])->name('loan.approve');

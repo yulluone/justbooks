@@ -15,5 +15,5 @@
 
 <script setup>
 defineProps(["type", "disabled"]);
-const emit = defineEmits("onClick");
+const emit = defineEmits(["onClick"]);
 </script>

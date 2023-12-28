@@ -13,7 +13,7 @@ class BookPolicy
 		*/
 	public function viewAny(User $user): bool
 	{
-		//
+	//
 	}
 
 	/**

@@ -22,7 +22,7 @@ const showingNavigationDropdown = ref(false);
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
+                                <Link :href="route('books.index')">
                                     <ApplicationLogo
                                         class="block h-9 w-auto text-gray-800"
                                     />
@@ -34,22 +34,16 @@ const showingNavigationDropdown = ref(false);
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
-                                    :href="route('dashboard')"
-                                    :active="route().current('dashboard')"
+                                    :href="route('books.index')"
+                                    :active="route().current('books.index')"
                                 >
-                                    Dashboard
+                                    Books
                                 </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex">
                             <div class="flex gap-4">
-                                <!-- Books Books Books -->
-                                <NavLink
-                                    :href="route('books.index')"
-                                    :active="route().current('books.index')"
-                                    >Books</NavLink
-                                >
                                 <NavLink
                                     :href="route('loans.index')"
                                     :active="route().current('loans.index')"
@@ -58,7 +52,10 @@ const showingNavigationDropdown = ref(false);
 
                                 <!-- Register new user -->
                                 <NavLink
-                                    v-if="$page.props.auth.user.isAdmin"
+                                    v-if="
+                                        $page.props.auth.user.isAdmin &&
+                                        !route().current('users.index')
+                                    "
                                     :href="route('register')"
                                     :active="route().current('register')"
                                     >Add User</NavLink
@@ -174,19 +171,12 @@ const showingNavigationDropdown = ref(false);
                         <!-- Dashboard -->
                         <ResponsiveNavLink
                             v-if="$page.props.auth.user"
-                            :href="route('dashboard')"
-                            :active="route().current('dashboard')"
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-
-                        <!-- Books Books Books -->
-                        <ResponsiveNavLink
-                            v-if="$page.props.auth.user"
                             :href="route('books.index')"
                             :active="route().current('books.index')"
-                            >Books</ResponsiveNavLink
                         >
+                            Books
+                        </ResponsiveNavLink>
+
                         <ResponsiveNavLink
                             v-if="$page.props.auth.user"
                             :href="route('loans.index')"
