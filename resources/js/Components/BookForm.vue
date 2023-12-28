@@ -184,7 +184,7 @@ onUnmounted(() => {
                 >
                     <span v-if="form.image" class="w-full">
                         {{
-                            editing
+                            !editing
                                 ? "Replace Image"
                                 : form.image.name
                                 ? form.image.name

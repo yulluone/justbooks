@@ -52,7 +52,11 @@ function openDeleteModal(book) {
             </div>
 
             <div class="data-table">
-                <BookDataTable :books="books" />
+                <BookDataTable
+                    :books="books"
+                    @edit="openEditModal"
+                    @delete="openDeleteModal"
+                />
             </div>
 
             <!-- <div class="mt-6 bg-white shadow-sm rounded-lg divide-y">

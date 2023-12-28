@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { useForm } from "@inertiajs/vue3";
+import { useForm, Link } from "@inertiajs/vue3";
+import EditIcon from "./EditIcon.vue";
+import DeleteIcon from "./DeleteIcon.vue";
 
 const search = ref("");
 const form = useForm({
@@ -11,6 +13,7 @@ const form = useForm({
 });
 
 const props = defineProps(["books"]);
+const emit = defineEmits(["edit", "delete"]);
 
 function formatDateToSQLDate(date) {
     const year = date.getFullYear();
@@ -76,8 +79,31 @@ const headers = [
                 </v-card>
             </template>
             <template v-slot:item.id="{ item }">
-                <form @submit.prevent="handleBorrowBook(item.id)">
-                    <PrimaryButton type class="scale-90">Borrow</PrimaryButton>
+                <form @submit.prevent="" class="flex flex-row">
+                    <PrimaryButton
+                        v-if="!$page.props.auth.user.isAdmin"
+                        type
+                        class="scale-90"
+                        @onClick="handleBorrowBook(item.id)"
+                        >Borrow</PrimaryButton
+                    >
+                    <PrimaryButton
+                        v-if="$page.props.auth.user.isAdmin"
+                        @onClick="emit('edit', item)"
+                        class="scale-90"
+                        ><EditIcon class="w-6 h-6"
+                    /></PrimaryButton>
+                    <Link
+                        as="button"
+                        :href="route('books.destroy', item.id)"
+                        method="delete"
+                    >
+                        <PrimaryButton
+                            v-if="$page.props.auth.user.isAdmin"
+                            class="scale-90 !bg-red-600"
+                            ><DeleteIcon class="w-6 h-6"
+                        /></PrimaryButton>
+                    </Link>
                 </form>
             </template>
         </v-data-table>
