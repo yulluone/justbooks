@@ -49,6 +49,12 @@ const showingNavigationDropdown = ref(false);
                                     :active="route().current('loans.index')"
                                     >Loans</NavLink
                                 >
+                                <NavLink
+                                    v-if="$page.props.auth.user.isAdmin"
+                                    :href="route('users.index')"
+                                    :active="route().current('users.index')"
+                                    >Users</NavLink
+                                >
 
                                 <!-- Register new user -->
                                 <NavLink
@@ -182,6 +188,12 @@ const showingNavigationDropdown = ref(false);
                             :href="route('loans.index')"
                             :active="route().current('loans.index')"
                             >Loans</ResponsiveNavLink
+                        >
+                        <ResponsiveNavLink
+                            v-if="$page.props.auth.user"
+                            :href="route('users.index')"
+                            :active="route().current('users.index')"
+                            >Users</ResponsiveNavLink
                         >
 
                         <!-- Register New User -->
