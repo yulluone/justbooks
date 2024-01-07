@@ -68,8 +68,8 @@ Before you start, make sure you have the following installed on your system:
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/your-repo.git
-    cd your-repo
+    git clone https://github.com/joshuamwo/justbooks.git
+    cd justbooks
     ```
 
     _(If you don't have Git, download the repository ZIP and extract it.)_
@@ -93,7 +93,7 @@ Before you start, make sure you have the following installed on your system:
     DB_PASSWORD=your_database_password
     ```
 
-    Run migrations:
+    Run migrations and seeders(AdminUserSeeder):
 
     ```bash
     php artisan migrate --seed
@@ -122,10 +122,13 @@ Before you start, make sure you have the following installed on your system:
 5. **Access the Application**
 
     Open your browser and go to `http://localhost:8000` to view the application.
-				
-				Login with the following credentials:
-				- Email: admin@justbooks.com
-				- Password: Seol11@3
+
+   Login with the following credentials:
+   
+    - Email:
+      ```admin@justbooks.com```
+	- Password:
+     ```Seol11@3```
 
 ### Additional Notes
 
