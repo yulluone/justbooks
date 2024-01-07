@@ -14,8 +14,7 @@ This project is a comprehensive implementation of a library management system us
 4. [Running the Project Locally](#running-the-project-locally)
     - [Prerequisites](#prerequisites)
     - [Installation Steps](#installation-steps)
-    - [Accessing the Application](#accessing-the-application)
-    - [Additional Notes](#additional-notes)
+    
 
 ## Project Structure
 
@@ -124,9 +123,9 @@ Before you start, make sure you have the following installed on your system:
 
     Open your browser and go to `http://localhost:8000` to view the application.
 
-   Login with the following credentials:
+    Login with the following credentials:
    
-    - Email: 
+    -  Email: 
             ```admin@justbooks.com```
     -Password:
             ``` Seol11@3```
