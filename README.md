@@ -69,8 +69,8 @@ Before you start, make sure you have the following installed on your system:
 1.  **Clone the Repository**
 
     ```bash
-    git clone https://github.com/your-username/your-repo.git
-    cd your-repo
+    git clone https://github.com/joshuamwo/justbooks.git
+    cd justbooks
     ```
 
     _(If you don't have Git, download the repository ZIP and extract it.)_
@@ -94,7 +94,7 @@ Before you start, make sure you have the following installed on your system:
     DB_PASSWORD=your_database_password
     ```
 
-    Run migrations:
+    Run migrations and seeders(AdminUserSeeder):
 
     ```bash
     php artisan migrate --seed
@@ -124,6 +124,7 @@ Before you start, make sure you have the following installed on your system:
 
     Open your browser and go to `http://localhost:8000` to view the application.
 
+<<<<<<< HEAD
         		Login with the following credentials:
         		- Email: admin@justbooks.com
         		- Password: Seol11@3
@@ -135,6 +136,14 @@ Before you start, make sure you have the following installed on your system:
         		- Borrow a book using the user account.
         		- Approve the book loan from the admin dashboard.
         		- Test other features like returning a book, extending the loan...
+=======
+   Login with the following credentials:
+   
+    - Email:
+      ```admin@justbooks.com```
+	- Password:
+     ```Seol11@3```
+>>>>>>> 99e53cd11a5d48fbe2458f137c68d99a6cd02731
 
 ### Additional Notes
 
