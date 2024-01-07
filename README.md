@@ -124,26 +124,20 @@ Before you start, make sure you have the following installed on your system:
 
     Open your browser and go to `http://localhost:8000` to view the application.
 
-<<<<<<< HEAD
-        		Login with the following credentials:
-        		- Email: admin@justbooks.com
-        		- Password: Seol11@3
+   Login with the following credentials:
+    - Email: 
+            ```admin@justbooks.com```
+    -Password:
+            ``` Seol11@3```
 
 6.  **Try Out Features**
 
-        		- Add some books to the library.
-        		- Create a user account.
-        		- Borrow a book using the user account.
-        		- Approve the book loan from the admin dashboard.
+   - Add some books to the library.
+     - Create a user account.
+       - Borrow a book using the user account.
+        	- Approve the book loan from the admin dashboard.
         		- Test other features like returning a book, extending the loan...
-=======
-   Login with the following credentials:
-   
-    - Email:
-      ```admin@justbooks.com```
-	- Password:
-     ```Seol11@3```
->>>>>>> 99e53cd11a5d48fbe2458f137c68d99a6cd02731
+
 
 ### Additional Notes
 
