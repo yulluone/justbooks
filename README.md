@@ -96,7 +96,7 @@ Before you start, make sure you have the following installed on your system:
     Run migrations:
 
     ```bash
-    php artisan migrate
+    php artisan migrate --seed
     ```
 
 3. **Frontend Setup**
