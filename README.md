@@ -122,6 +122,10 @@ Before you start, make sure you have the following installed on your system:
 5. **Access the Application**
 
     Open your browser and go to `http://localhost:8000` to view the application.
+				
+				Login with the following credentials:
+				- Email: admin@justbooks.com
+				- Password: Seol11@3
 
 ### Additional Notes
 
