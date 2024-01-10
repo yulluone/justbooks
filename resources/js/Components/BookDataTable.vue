@@ -67,8 +67,8 @@ const headers = [
             <template v-slot:item.status="{ item }">
                 <div class="text-end">
                     <v-chip
-                        :color="item.loans.length > 0 ? 'red' : 'green'"
-                        :text="item.loans.length > 0 ? 'ON LOAN' : 'AVAILABLE'"
+                        :color="item.available > 0 ? 'green' : 'red'"
+                        :text="item.available > 0 ? 'AVAILABLE' : 'ON LOAN'"
                         class="text-uppercase"
                         label
                         size="small"

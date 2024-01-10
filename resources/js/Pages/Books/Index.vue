@@ -19,8 +19,6 @@ const selectedBook = ref({});
 
 const props = defineProps(["books"]);
 
-console.log(props.books[1].loans);
-
 provide("modalIsOpen", modalIsOpen);
 
 const borrorBookModalIsOpen = ref(false);
