@@ -26,7 +26,6 @@ const canSubmit = ref(false);
 
 const handleImage = async (event) => {
     form.image = event.target.files[0];
-    // console.log("add image", addImageButton.value.clientWidth);
 };
 
 const handleSubmit = async () => {

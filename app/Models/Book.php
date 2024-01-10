@@ -25,6 +25,8 @@ class Book extends Model
 		'available'
 	];
 
+
+
 	function user(): BelongsTo
 	{
 		return $this->belongsTo(User::class);
