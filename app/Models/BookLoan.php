@@ -24,6 +24,7 @@ class BookLoan extends Model
 		'status',
 	];
 
+
 	protected $dispatchesEvents = [
 		'created' => BookLoanRequested::class,
 	];

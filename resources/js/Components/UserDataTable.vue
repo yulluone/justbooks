@@ -86,12 +86,12 @@ const headers = [
                         @onClick="handleBorrowBook(item.id)"
                         >Borrow</PrimaryButton
                     >
-                    <PrimaryButton
+                    <!-- <PrimaryButton
                         v-if="$page.props.auth.user.isAdmin"
                         @onClick="emit('edit', item)"
                         class="scale-90"
                         >Make Admin</PrimaryButton
-                    >
+                    > -->
 
                     <PrimaryButton
                         @onClick="emit('delete', item)"

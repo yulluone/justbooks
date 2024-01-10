@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\BookLoanRequested;
+use App\Events\UserRegistered;
 use App\Listeners\SendBookLoanRequestNotifications;
+use App\Listeners\SendNewUserNotifications;
 use App\Notifications\NewLoan;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
 
 		BookLoanRequested::class => [
 			SendBookLoanRequestNotifications::class,
+		],
+		UserRegistered::class => [
+			SendNewUserNotifications::class,
 		],
 		Registered::class => [
 			SendEmailVerificationNotification::class,
