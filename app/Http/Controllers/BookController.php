@@ -19,7 +19,11 @@ class BookController extends Controller
 		$user = Auth::user();
 
 		if ($user && $user->isAdmin) {
-			$books = Book::latest()->get();
+			$books = Book::with([
+				'loans' => function ($query) {
+					$query->whereIn('status', ['pending', 'active']);
+				}
+			])->latest()->get();
 		} else {
 			$books = Book::where('available', true)->latest()->get();
 		}

@@ -24,13 +24,13 @@ class BookLoanController extends Controller
 		if ($user->isAdmin) {
 			$loans = BookLoan::with([
 				'book' => function ($query) {
-					$query->select('id', 'name', 'image');
+					$query->withTrashed()->select('id', 'name', 'image');
 				}
 			])->latest()->get();
 		} else {
 			$loans = BookLoan::where("user_id", $user->id)->with([
 				'book' => function ($query) {
-					$query->select('id', 'name', 'image');
+					$query->withTrashed()->select('id', 'name', 'image');
 				}
 			])->latest()->get();
 		}

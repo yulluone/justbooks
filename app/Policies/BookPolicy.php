@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Book;
 use App\Models\User;
+use App\Models\BookLoan;
 use Illuminate\Auth\Access\Response;
 
 class BookPolicy
@@ -13,7 +14,7 @@ class BookPolicy
 		*/
 	public function viewAny(User $user): bool
 	{
-	//
+		//
 	}
 
 	/**
@@ -46,6 +47,10 @@ class BookPolicy
 		*/
 	public function delete(User $user, Book $book): bool
 	{
+
+		if ($book->available == false) {
+			return false;
+		}
 		return $this->update($user, $book);
 	}
 

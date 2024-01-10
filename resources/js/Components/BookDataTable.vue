@@ -20,33 +20,7 @@ function updateDays(value) {
 }
 
 const props = defineProps(["books"]);
-const emit = defineEmits(["edit", "delete"]);
-
-function formatDateToSQLDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-}
-
-function handleBorrowBook(id) {
-    const today = new Date();
-    const loanDate = formatDateToSQLDate(today);
-    const aWeekFromNow = new Date();
-    aWeekFromNow.setDate(today.getDate() + form.days);
-    const dueDate = formatDateToSQLDate(aWeekFromNow);
-
-    //set form data
-    form.book_id = id;
-    form.loan_date = loanDate;
-    form.due_date = dueDate;
-
-    // console.log(form);
-
-    // book book
-    form.post(route("loans.store"));
-}
+const emit = defineEmits(["edit", "delete", "borrowBook"]);
 
 const headers = [
     { title: "Name", value: "name" },
@@ -55,6 +29,7 @@ const headers = [
     { title: "Category", value: "category" },
     { title: "Pages", value: "pages" },
     { title: "Synopsis", value: "description" },
+    { title: "Status", value: "status" },
     { title: "", value: "id" },
 ];
 </script>
@@ -62,8 +37,12 @@ const headers = [
 <template>
     <v-card flat>
         <v-card-title class="d-flex align-center pe-2">
-            Find a Book & Borrow
-            <span></span>
+            {{
+                $page.props.auth.user.isAdmin
+                    ? "All Books"
+                    : "Find a Book & Borrow"
+            }}
+            <span> </span>
             <v-spacer></v-spacer>
 
             <v-text-field
@@ -85,26 +64,27 @@ const headers = [
                     <v-img :src="item.image" height="64" cover></v-img>
                 </v-card>
             </template>
+            <template v-slot:item.status="{ item }">
+                <div class="text-end">
+                    <v-chip
+                        :color="item.loans.length > 0 ? 'red' : 'green'"
+                        :text="item.loans.length > 0 ? 'ON LOAN' : 'AVAILABLE'"
+                        class="text-uppercase"
+                        label
+                        size="small"
+                    ></v-chip>
+                </div>
+            </template>
             <template v-slot:item.id="{ item }">
                 <form @submit.prevent="" class="flex flex-row">
                     <div
                         v-if="!$page.props.auth.user.isAdmin"
                         class="flex items-center"
                     >
-                        <input
-                            :id="item.id"
-                            placeholder="Days"
-                            type="number"
-                            class="w-20 h-10 rounded border border-gray-800"
-                            required
-                            v-model="form.days"
-                        />
-
                         <PrimaryButton
                             class="scale-90 !h-10"
                             type="submit"
-                            @onClick="handleBorrowBook(item.id)"
-                            :disabled="!form.days || form.days > 30"
+                            @onClick="emit('borrowBook', item.id)"
                             >Borrow</PrimaryButton
                         >
                     </div>
@@ -121,7 +101,12 @@ const headers = [
                     >
                         <PrimaryButton
                             v-if="$page.props.auth.user.isAdmin"
-                            class="scale-90 !bg-red-600"
+                            :disabled="!item.available"
+                            :class="
+                                !item.available
+                                    ? 'scale-90'
+                                    : 'scale-90 !bg-red-600'
+                            "
                             ><DeleteIcon class="w-6 h-6"
                         /></PrimaryButton>
                     </Link>

@@ -17,6 +17,8 @@ const form = useForm({
 
 const props = defineProps(["loans"]);
 
+console.table(props.loans);
+
 function formatDateToSQLDate(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
@@ -128,8 +130,8 @@ const headers = [
                         v-if="
                             !$page.props.auth.user.isAdmin &&
                             item.status !== 'pending' &&
-                            item.status !== 'returned' &&
                             item.status !== 'denied' &&
+                            item.status !== 'returned' &&
                             !item.extended
                         "
                         @onClick="handleExtendLoan(item)"
