@@ -77,8 +77,8 @@ onUnmounted(() => {
 
 <template>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8 bg-white rounded">
-        <form class="flex flex-col gap-2" @submit.prevent="handleSubmit">
-            <div class="grid grid-cols-2 gap-2">
+        <form class="flex flex-col gap-5" @submit.prevent="handleSubmit">
+            <div class="grid grid-cols-2 gap-5">
                 <div>
                     <InputField
                         id="bookName"
@@ -102,7 +102,7 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-5">
                 <div>
                     <InputField
                         id="isbn"
@@ -129,7 +129,7 @@ onUnmounted(() => {
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="grid grid-cols-2 gap-5">
                 <div>
                     <InputField
                         id="category"

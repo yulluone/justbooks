@@ -4,13 +4,20 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { useForm, Link } from "@inertiajs/vue3";
 import EditIcon from "./EditIcon.vue";
 import DeleteIcon from "./DeleteIcon.vue";
+import InputField from "./InputField.vue";
 
 const search = ref("");
 const form = useForm({
     book_id: null,
     loan_date: null,
     due_date: null,
+    days: null,
 });
+
+function updateDays(value) {
+    console.log(value);
+    form.days = value;
+}
 
 const props = defineProps(["books"]);
 const emit = defineEmits(["edit", "delete"]);
@@ -27,7 +34,7 @@ function handleBorrowBook(id) {
     const today = new Date();
     const loanDate = formatDateToSQLDate(today);
     const aWeekFromNow = new Date();
-    aWeekFromNow.setDate(today.getDate() + 7);
+    aWeekFromNow.setDate(today.getDate() + form.days);
     const dueDate = formatDateToSQLDate(aWeekFromNow);
 
     //set form data
@@ -55,7 +62,7 @@ const headers = [
 <template>
     <v-card flat>
         <v-card-title class="d-flex align-center pe-2">
-            Find a Book & Borrow for a week.
+            Find a Book & Borrow
             <span></span>
             <v-spacer></v-spacer>
 
@@ -80,13 +87,27 @@ const headers = [
             </template>
             <template v-slot:item.id="{ item }">
                 <form @submit.prevent="" class="flex flex-row">
-                    <PrimaryButton
+                    <div
                         v-if="!$page.props.auth.user.isAdmin"
-                        type
-                        class="scale-90"
-                        @onClick="handleBorrowBook(item.id)"
-                        >Borrow</PrimaryButton
+                        class="flex items-center"
                     >
+                        <input
+                            :id="item.id"
+                            placeholder="Days"
+                            type="number"
+                            class="w-20 h-10 rounded border border-gray-800"
+                            required
+                            v-model="form.days"
+                        />
+
+                        <PrimaryButton
+                            class="scale-90 !h-10"
+                            type="submit"
+                            @onClick="handleBorrowBook(item.id)"
+                            :disabled="!form.days || form.days > 30"
+                            >Borrow</PrimaryButton
+                        >
+                    </div>
                     <PrimaryButton
                         v-if="$page.props.auth.user.isAdmin"
                         @onClick="emit('edit', item)"

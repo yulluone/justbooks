@@ -52,6 +52,7 @@ Route::middleware(['auth', 'checkisadmin'])->group(function () {
 	// upload image
 	Route::post('/upload/image', [ImageUploadController::class, 'uploadImage']);
 	Route::put('/loan/approve', [BookLoanController::class, 'approve'])->name('loan.approve');
+	Route::put('/loan/deny', [BookLoanController::class, 'deny'])->name('loan.deny');
 	Route::put('/loan/receive', [BookLoanController::class, 'receive'])->name('loan.receive');
 
 });

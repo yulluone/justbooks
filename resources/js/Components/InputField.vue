@@ -1,11 +1,20 @@
 <script setup>
-defineProps(["modelValue", "id", "type", "label", "placeholder"]);
+const props = defineProps([
+    "modelValue",
+    "id",
+    "type",
+    "label",
+    "placeholder",
+    "class",
+]);
 const emits = defineEmits(["update:modelValue"]);
 </script>
 
 <template>
-    <label :for="id">
-        {{ label }}
+    <label :for="id" :class="class">
+        <span class="ml-3">
+            {{ label }}
+        </span>
         <input
             :id="id"
             :type="type"

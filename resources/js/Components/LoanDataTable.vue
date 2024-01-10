@@ -61,6 +61,11 @@ function handleLoanApproval(item) {
     form.put(route("loan.approve"));
 }
 
+function handleLoanDenial(item) {
+    form.id = item.id;
+    form.put(route("loan.deny"));
+}
+
 const headers = [
     { title: "Cover", value: "book.image", sortable: true },
     { title: "Name", value: "book.name", sortable: true },
@@ -104,8 +109,10 @@ const headers = [
                         :color="
                             item.status == 'active'
                                 ? 'green'
-                                : 'returned'
+                                : item.status == 'returned'
                                 ? 'blue'
+                                : item.status == 'pending'
+                                ? 'orange'
                                 : 'red'
                         "
                         :text="item.status"
@@ -121,11 +128,13 @@ const headers = [
                         v-if="
                             !$page.props.auth.user.isAdmin &&
                             item.status !== 'pending' &&
+                            item.status !== 'returned' &&
+                            item.status !== 'denied' &&
                             !item.extended
                         "
                         @onClick="handleExtendLoan(item)"
                         class="scale-90 !bg-amber-900"
-                        >Extend</PrimaryButton
+                        >Extend 1wk</PrimaryButton
                     >
                     <PrimaryButton
                         v-if="
@@ -144,6 +153,15 @@ const headers = [
                         @onClick="handleLoanApproval(item)"
                         class="scale-90"
                         >Approve</PrimaryButton
+                    >
+                    <PrimaryButton
+                        v-if="
+                            $page.props.auth.user.isAdmin &&
+                            item.status == 'pending'
+                        "
+                        @onClick="handleLoanDenial(item)"
+                        class="scale-90 !bg-amber-900"
+                        >Deny</PrimaryButton
                     >
                 </form>
             </template>

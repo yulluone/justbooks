@@ -109,7 +109,6 @@ class BookLoanController extends Controller
 			"extension_date" => "required|date",
 		]);
 		$bookLoan = BookLoan::find($bookLoanId);
-		// $bookLoan->update(['status' => "active"]);
 
 
 		$updated = $bookLoan->update([
@@ -141,6 +140,25 @@ class BookLoanController extends Controller
 		// $this->authorize('update', $user);
 
 		$book_loan->update(['status' => 'active']);
+
+		return redirect(route("loans.index"));
+	}
+
+
+	/**
+		* Deny Book Loan
+		*/
+
+	public function deny(Request $request): RedirectResponse
+	{
+		$book_loan = BookLoan::find($request->input('id'));
+
+		// $user = $request->user(); 
+		// $this->authorize('update', $user);
+
+		$book_loan->update(['status' => 'denied']);
+		$book_loan->book->update(['available' => true]);
+
 
 		return redirect(route("loans.index"));
 	}
